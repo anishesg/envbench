@@ -1,0 +1,9 @@
+data/
+*.duckdb
+*.duckdb.wal
+.env
+__pycache__/
+*.pyc
+.venv/
+.python-version
+uv.lock
