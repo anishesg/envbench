@@ -107,8 +107,9 @@ echo "envbench pipeline starting at $(date -u)"
 echo "========================================="
 
 # --- System packages ---
-dnf install -y git python3.12 python3.12-pip gcc gcc-c++ \
-    gdal gdal-devel geos geos-devel proj proj-devel
+# geopandas/shapely/pyogrio wheels bundle their own GDAL/GEOS/PROJ libs,
+# so we only need Python + basic build tools.
+dnf install -y git python3.12 python3.12-pip gcc gcc-c++
 
 # --- Install uv ---
 curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -140,8 +141,10 @@ DOTENV
 
 # --- Run pipeline ---
 echo "Pipeline start: $(date -u)"
+set +e
 uv run python scripts/run_pipeline.py 2>&1 | tee /var/log/envbench-run.log
-PIPELINE_EXIT=$?
+PIPELINE_EXIT=${PIPESTATUS[0]}
+set -e
 echo "Pipeline exit code: $PIPELINE_EXIT at $(date -u)"
 
 if [[ $PIPELINE_EXIT -eq 0 ]]; then
