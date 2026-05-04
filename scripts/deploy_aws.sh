@@ -112,11 +112,12 @@ echo "========================================="
 dnf install -y git python3.12 python3.12-pip gcc gcc-c++
 
 # --- Install uv ---
+export HOME=/root
 curl -LsSf https://astral.sh/uv/install.sh | sh
-export PATH="$HOME/.local/bin:$PATH"
+export PATH="/root/.local/bin:$PATH"
 
 # --- Clone repo ---
-cd /home/ec2-user
+cd /tmp
 USERDATA_OUTER
 )
 
